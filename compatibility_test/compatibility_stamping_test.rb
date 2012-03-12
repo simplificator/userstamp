@@ -1,19 +1,19 @@
-$:.unshift(File.dirname(__FILE__))
+$:.unshift(File.dirname(__FILE__) + '/../test')
 
-require 'helpers/unit_test_helper'
+require 'helpers/test_helper'
 Ddb::Userstamp.compatibility_mode = true
 require 'models/user'
 require 'models/person'
 require 'models/post'
 require 'models/comment'
 
-class CompatibilityStampingTests< Test::Unit::TestCase  # :nodoc:
+class CompatibilityStampingTest < ActiveSupport::TestCase
  fixtures :people, :comments 
 
   def setup
     Person.stamper = @delynn
   end
-
+  
   def test_comment_creation_with_stamped_object
     assert_equal @delynn.id, Person.stamper
 

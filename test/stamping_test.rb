@@ -1,12 +1,12 @@
 $:.unshift(File.dirname(__FILE__))
 
-require 'helpers/unit_test_helper'
+require 'helpers/test_helper'
 require 'models/user'
 require 'models/person'
 require 'models/post'
 require 'models/comment'
 
-class StampingTests < Test::Unit::TestCase  # :nodoc:
+class StampingTest < ActiveSupport::TestCase
   fixtures :users, :people, :posts, :comments
 
   def setup

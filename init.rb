@@ -1,4 +1,4 @@
-require 'stamper'
-require 'stampable'
+#require 'stamper'
+#require 'stampable'
 require 'userstamp'
-require 'migration_helper'
+require 'userstamp/migration_helper'
