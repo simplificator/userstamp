@@ -30,12 +30,25 @@ module Ddb #:nodoc:
         def stamper
           Thread.current["#{self.to_s.downcase}_#{self.object_id}_stamper"]
         end
+        
+        def stamper_instance
+          Numeric === stamper ? find_by_id(stamper) : stamper
+        end
 
         # Sets the stamper back to +nil+ to prepare for the next request.
         def reset_stamper
           Thread.current["#{self.to_s.downcase}_#{self.object_id}_stamper"] = nil
         end
       end
+      
+      def stamper_name
+        if respond_to?(:name)
+          name
+        else
+          nil
+        end
+      end
+      
     end
   end
 end

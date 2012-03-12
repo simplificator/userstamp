@@ -46,6 +46,10 @@ module Ddb #:nodoc:
           # Defaults to :deleter_id when compatibility mode is off
           # Defaults to :deleted_by when compatibility mode is on
           class_attribute  :deleter_attribute
+          
+          class_attribute :creator_name_attribute
+          class_attribute :updater_name_attribute
+          class_attribute :deleter_name_attribute
 
           self.stampable
         end
@@ -70,13 +74,22 @@ module Ddb #:nodoc:
                         :stamper_class_name => :user,
                         :creator_attribute  => Ddb::Userstamp.compatibility_mode ? :created_by : :creator_id,
                         :updater_attribute  => Ddb::Userstamp.compatibility_mode ? :updated_by : :updater_id,
-                        :deleter_attribute  => Ddb::Userstamp.compatibility_mode ? :deleted_by : :deleter_id
+                        :deleter_attribute  => Ddb::Userstamp.compatibility_mode ? :deleted_by : :deleter_id,
+                        
+                        :creator_name_attribute => :creator_name,
+                        :updater_name_attribute => :updater_name,
+                        :deleter_name_attribute => :deleter_name
+                        
                       }.merge(options)
 
           self.stamper_class_name = defaults[:stamper_class_name].to_sym
           self.creator_attribute  = defaults[:creator_attribute].to_sym
           self.updater_attribute  = defaults[:updater_attribute].to_sym
           self.deleter_attribute  = defaults[:deleter_attribute].to_sym
+          
+          self.creator_name_attribute  = defaults[:creator_name_attribute].to_sym
+          self.updater_name_attribute  = defaults[:updater_name_attribute].to_sym
+          self.deleter_name_attribute  = defaults[:deleter_name_attribute].to_sym
 
           class_eval do
             belongs_to :creator, :class_name => self.stamper_class_name.to_s.singularize.camelize,
@@ -116,6 +129,7 @@ module Ddb #:nodoc:
       end
 
       module InstanceMethods #:nodoc:
+        
         private
           def has_stamper?
             !self.class.stamper_class.nil? && !self.class.stamper_class.stamper.nil? rescue false
@@ -125,6 +139,9 @@ module Ddb #:nodoc:
             return unless self.record_userstamp
             if respond_to?(self.creator_attribute.to_sym) && has_stamper?
               self.send("#{self.creator_attribute}=".to_sym, self.class.stamper_class.stamper)
+              if respond_to?(self.creator_name_attribute.to_sym) and stamper = self.class.stamper_class.stamper_instance
+                self.send("#{self.creator_name_attribute}=".to_sym, stamper.stamper_name)
+              end
             end
           end
 
@@ -132,6 +149,9 @@ module Ddb #:nodoc:
             return unless self.record_userstamp
             if respond_to?(self.updater_attribute.to_sym) && has_stamper?
               self.send("#{self.updater_attribute}=".to_sym, self.class.stamper_class.stamper)
+              if respond_to?(self.updater_name_attribute.to_sym) and stamper = self.class.stamper_class.stamper_instance
+                self.send("#{self.updater_name_attribute}=".to_sym, stamper.stamper_name)
+              end
             end
           end
 
@@ -139,6 +159,9 @@ module Ddb #:nodoc:
             return unless self.record_userstamp
             if respond_to?(self.deleter_attribute.to_sym) && has_stamper?
               self.send("#{self.deleter_attribute}=".to_sym, self.class.stamper_class.stamper)
+              if respond_to?(self.deleter_name_attribute.to_sym) and stamper = self.class.stamper_class.stamper_instance
+                self.send("#{self.deleter_name_attribute}=".to_sym, stamper.stamper_name)
+              end
               save
             end
           end

@@ -43,6 +43,7 @@ class StampingTest < ActiveSupport::TestCase
     assert_equal @delynn.id, post.updater_id
     assert_equal @delynn, post.creator
     assert_equal @delynn, post.updater
+    
   end
 
   def test_post_creation_with_stamped_integer
@@ -67,6 +68,8 @@ class StampingTest < ActiveSupport::TestCase
     assert_equal @hera, @delynn.updater
     assert_equal @zeus.id, @delynn.creator_id
     assert_equal @hera.id, @delynn.updater_id
+    
+    assert_equal @hera.name, @delynn.updater_name
   end
 
   def test_person_updating_with_stamped_integer
@@ -80,6 +83,8 @@ class StampingTest < ActiveSupport::TestCase
     assert_equal @hera.id, @delynn.updater_id
     assert_equal @zeus, @delynn.creator
     assert_equal @hera, @delynn.updater
+    
+    assert_equal @hera.name, @delynn.updater_name
   end
 
   def test_post_updating_with_stamped_object
@@ -93,6 +98,8 @@ class StampingTest < ActiveSupport::TestCase
     assert_equal @nicole.id, @first_post.updater_id
     assert_equal @delynn, @first_post.creator
     assert_equal @nicole, @first_post.updater
+    
+    assert_equal "Stamper name: #{@nicole.name}", @first_post.updater_name
   end
 
   def test_post_updating_with_stamped_integer
@@ -106,5 +113,8 @@ class StampingTest < ActiveSupport::TestCase
     assert_equal @nicole.id, @first_post.updater_id
     assert_equal @delynn, @first_post.creator
     assert_equal @nicole, @first_post.updater
+    
+    assert_equal "Stamper name: #{@nicole.name}", @first_post.updater_name
   end
+  
 end

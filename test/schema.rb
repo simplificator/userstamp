@@ -15,6 +15,8 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column :created_on,     :datetime
     t.column :updater_id,     :integer
     t.column :updated_at,     :datetime
+    
+    t.column :updater_name,   :string
   end
 
   # Posts are created and updated by People
@@ -26,6 +28,9 @@ ActiveRecord::Schema.define(:version => 0) do
     t.column :updated_at,     :datetime
     t.column :deleter_id,     :integer
     t.column :deleted_at,     :datetime
+    
+    t.column :creator_name,   :string
+    t.column :updater_name,   :string
   end
 
   # Comments are created and updated by People
