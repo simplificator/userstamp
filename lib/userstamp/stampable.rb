@@ -50,8 +50,6 @@ module Ddb #:nodoc:
           class_attribute :creator_name_attribute
           class_attribute :updater_name_attribute
           class_attribute :deleter_name_attribute
-
-          self.stampable
         end
       end
 
