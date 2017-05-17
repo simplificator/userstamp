@@ -66,7 +66,7 @@ module Ddb #:nodoc:
         #   end
         #
         # The method will automatically setup all the associations, and create <tt>before_save</tt>
-        # and <tt>before_create</tt> filters for doing the stamping.
+        # and <tt>before_create</tt> actions for doing the stamping.
         def stampable(options = {})
           defaults  = {
                         :stamper_class_name => :user,
